@@ -1,19 +1,23 @@
 
-CREATE TABLE IF NOT EXISTS company_dim (
-    company_id INTEGER PRIMARY KEY ,
-    name VARCHAR,
-    -- link VARCHAR(50),
-    -- link_google VARCHAR(50),
-    -- thumbnail
+-- Drop order matters due to foreign key dependencies
+-- You must drop child tables first before parent tables to avoid constraint errors
+DROP TABLE IF EXISTS skills_job_dim;
+DROP TABLE IF EXISTS job_postings_fact;
+DROP TABLE IF EXISTS skills_dim;
+DROP TABLE IF EXISTS company_dim;
+
+CREATE TABLE company_dim (
+    company_id INTEGER PRIMARY KEY,
+    name VARCHAR
 );
 
-CREATE TABLE IF NOT EXISTS skills_dim (
+CREATE TABLE skills_dim (
     skill_id INTEGER PRIMARY KEY,
     skills VARCHAR,
     type VARCHAR
 );
 
-CREATE TABLE IF NOT EXISTS job_postings_fact (
+CREATE TABLE job_postings_fact (
     job_id INTEGER PRIMARY KEY,
     company_id INTEGER,
     job_title_short VARCHAR,
@@ -33,7 +37,7 @@ CREATE TABLE IF NOT EXISTS job_postings_fact (
     FOREIGN KEY (company_id) REFERENCES company_dim(company_id)
 );
 
-CREATE TABLE IF NOT EXISTS skills_job_dim (
+CREATE TABLE skills_job_dim (
     job_id INTEGER,
     skill_id INTEGER,
     PRIMARY KEY (job_id, skill_id),
@@ -41,12 +45,8 @@ CREATE TABLE IF NOT EXISTS skills_job_dim (
     FOREIGN KEY (skill_id) REFERENCES skills_dim(skill_id)
 );
 
--- Verify creation
-SELECT table_name
-FROM information_schema.tables
-WHERE table_schema = 'main';
+-- Verify table creation
+-- SELECT table_name
+-- FROM information_schema.tables
+-- WHERE table_schema = 'main';
 
-/*
-    Run (creates duckdb database file): 
-    duckdb dw_marts.duckdb -c ".read 01_create_tables_dw.sql"
-*/
