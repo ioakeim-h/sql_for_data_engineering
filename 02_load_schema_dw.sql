@@ -56,3 +56,12 @@ SELECT '=== Loading skills_job_dim Table ===' AS info;
 INSERT INTO skills_job_dim (skill_id, job_id)
 SELECT skill_id, job_id
 FROM read_csv('https://storage.googleapis.com/sql_de/skills_job_dim.csv');
+
+SELECT '=== Data Validation ===' AS info;
+SELECT 'company_dim' AS table_name, COUNT(*) AS row_count FROM company_dim
+UNION ALL
+SELECT 'skills_dim', COUNT(*) FROM skills_dim    
+UNION ALL
+SELECT 'job_postings_fact', COUNT(*) FROM job_postings_fact   
+UNION ALL 
+SELECT 'skills_job_dim', COUNT(*) FROM skills_job_dim;

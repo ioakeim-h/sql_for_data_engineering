@@ -45,8 +45,8 @@ CREATE TABLE skills_job_dim (
     FOREIGN KEY (skill_id) REFERENCES skills_dim(skill_id)
 );
 
--- Verify table creation
--- SELECT table_name
--- FROM information_schema.tables
--- WHERE table_schema = 'main';
+SELECT '=== Tables created ===' AS info;
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'main';
 
